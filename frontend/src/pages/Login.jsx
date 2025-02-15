@@ -40,7 +40,7 @@ const Login = ({ setAuth }) => {
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
-            <div className="card shadow p-5 w-75" style={{ maxWidth: "500px" }}>
+            <div className="card shadow-lg p-5 w-100" style={{ maxWidth: "600px" }}>
                 <h2 className="text-center mb-4">Login</h2>
                 <form onSubmit={onSubmit}>
                     <div className="mb-4">
