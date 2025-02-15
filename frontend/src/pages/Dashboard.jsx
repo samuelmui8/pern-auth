@@ -10,7 +10,7 @@ const Dashboard = ({ setAuth }) => {
             try {
                 const response = await fetch("http://localhost:3000/dashboard", {
                     method: "GET",
-                    headers: { "token": `${localStorage.getItem("token")}` },
+                    credentials: "include",
                 });
                 
                 const data = await response.json();
@@ -27,10 +27,23 @@ const Dashboard = ({ setAuth }) => {
         fetchUserData();
     }, []);
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        setAuth(false);
-        toast.success("Logout successful");
+    const logout = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/auth/logout", {
+                method: "POST",
+                credentials: "include", // Ensure the cookie is cleared
+            });
+
+            if (response.ok) {
+                setAuth(false);
+                toast.success("Logout successful");
+            } else {
+                toast.error("Logout failed");
+            }
+        } catch (err) {
+            console.error("Error during logout:", err);
+            toast.error("An error occurred");
+        }
     };
 
     return (

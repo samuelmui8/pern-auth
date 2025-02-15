@@ -25,6 +25,7 @@ function App() {
       const response = await fetch("http://localhost:3000/auth/is-verified", {
         method: "GET",
         headers: { token: localStorage.getItem("token") },
+        credentials: "include"
       });
 
       const data = await response.json();

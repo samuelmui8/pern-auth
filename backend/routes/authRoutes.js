@@ -20,8 +20,15 @@ router.post('/register', validation, async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = await createUser(username, hashedPassword, nric, first_name, last_name, dob, address, gender);
         const token = jwt.sign({ user: newUser.username }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ token, newUser });
-        // res.status(201).json({message: "User registered successfully", user: newUser});
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Strict",
+            maxAge: 60 * 60 * 1000, // 1 hour
+        });
+
+        res.json({ message: "User registered successfully" });
 
     } catch (err) {
         console.error(err.message);
@@ -39,11 +46,27 @@ router.post("/login", validation, async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
 
         const token = jwt.sign({ user: user.username }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ token, user });
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Strict",
+            maxAge: 60 * 60 * 1000, // 1 hour
+        });
+
+        res.json({ message: "Login successful" });
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ message: "Server error", error: err.message });
     }
+});
+
+router.post("/logout", (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "Strict",
+        secure: process.env.NODE_ENV === "production",
+    });
+    res.json({ message: "Logged out successfully" });
 });
 
 router.get("/is-verified", authenticateToken, async (req, res) => {
