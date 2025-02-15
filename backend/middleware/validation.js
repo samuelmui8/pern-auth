@@ -3,7 +3,7 @@ module.exports = (req, res, next) => {
 
     if (req.path === "/register") {
         if (![username, password, nric, first_name, last_name, dob, address, gender].every(Boolean)) {
-            return res.status(401).json({ message: "Missing Credentials" });
+            return res.status(401).json({ message: "Missing Input" });
         }
         // check nric validity
         if (!/^[STFG]\d{7}[A-Z]$/.test(nric)) {
@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
     
     if (req.path === "/login") {
         if (![username, password].every(Boolean)) {
-            return res.status(401).json({ message: "Missing Credentials" });
+            return res.status(401).json({ message: "Missing Input" });
         }
     }
     

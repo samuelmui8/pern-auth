@@ -7,6 +7,8 @@ const router = express.Router();
 router.get("/", authenticateToken, async (req, res) => {
     try {
         const user = await getUserByUsername(req.user);
+        console.log(user);
+        
         if (!user) return res.status(404).json({ message: "User not found" }); // should not happen
 
         const { password, ...userInfo } = user;
