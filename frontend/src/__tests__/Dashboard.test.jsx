@@ -20,7 +20,7 @@ const server = setupServer(
       {
         status: 200,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }),
   http.post("http://localhost:3000/auth/logout", () => {
@@ -28,7 +28,7 @@ const server = setupServer(
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  })
+  }),
 );
 
 // Start the mock server before tests
@@ -44,7 +44,7 @@ test("renders user data correctly", async () => {
 
   // Wait for the user data to be loaded
   await waitFor(() =>
-    expect(screen.queryByText(/Loading user data.../i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Loading user data.../i)).not.toBeInTheDocument(),
   );
 
   // Verify that the user data is displayed correctly
@@ -72,7 +72,7 @@ test("shows a loading message while fetching user data", async () => {
   render(<Dashboard setAuth={mockSetAuth} />);
   expect(screen.getByText(/Loading user data.../i)).toBeInTheDocument();
   await waitFor(() =>
-    expect(screen.queryByText(/Loading user data.../i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Loading user data.../i)).not.toBeInTheDocument(),
   );
 });
 
@@ -83,7 +83,7 @@ test("logs out successfully when the logout button is clicked", async () => {
   render(<Dashboard setAuth={mockSetAuth} />);
 
   await waitFor(() =>
-    expect(screen.queryByText(/Loading user data.../i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Loading user data.../i)).not.toBeInTheDocument(),
   );
 
   const logoutButton = screen.getByRole("button", { name: /Logout/i });

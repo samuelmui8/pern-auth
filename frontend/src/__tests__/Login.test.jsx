@@ -30,7 +30,7 @@ const server = setupServer(
         headers: { "Content-Type": "application/json" },
       });
     }
-  })
+  }),
 );
 
 // Start the mock server before tests

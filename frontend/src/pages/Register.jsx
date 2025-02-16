@@ -11,10 +11,19 @@ const Register = ({ setAuth }) => {
     last_name: "",
     dob: "",
     address: "",
-    gender: ""
+    gender: "",
   });
 
-  const { username, password, nric, first_name, last_name, dob, address, gender } = formData;
+  const {
+    username,
+    password,
+    nric,
+    first_name,
+    last_name,
+    dob,
+    address,
+    gender,
+  } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +37,7 @@ const Register = ({ setAuth }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-        credentials: "include"
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -112,7 +121,9 @@ const Register = ({ setAuth }) => {
             </div>
           </div>
           <div className="mb-3">
-            <label htmlFor="dob" className="form-label">Date of Birth</label>
+            <label htmlFor="dob" className="form-label">
+              Date of Birth
+            </label>
             <input
               type="date"
               id="dob"
@@ -136,7 +147,9 @@ const Register = ({ setAuth }) => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="gender" className="form-label">Gender</label>
+            <label htmlFor="gender" className="form-label">
+              Gender
+            </label>
             <select
               name="gender"
               id="gender"

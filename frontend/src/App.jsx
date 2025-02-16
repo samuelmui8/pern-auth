@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -25,7 +25,7 @@ function App() {
       const response = await fetch("http://localhost:3000/auth/is-verified", {
         method: "GET",
         headers: { token: localStorage.getItem("token") },
-        credentials: "include"
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -42,15 +42,33 @@ function App() {
           <Routes>
             <Route
               path="/register"
-              element={!isAuthenticated ? <Register setAuth={setAuth} /> : <Navigate to="/dashboard" />}
+              element={
+                !isAuthenticated ? (
+                  <Register setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/dashboard" />
+                )
+              }
             />
             <Route
               path="/login"
-              element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/dashboard" />}
+              element={
+                !isAuthenticated ? (
+                  <Login setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/dashboard" />
+                )
+              }
             />
             <Route
               path="/dashboard"
-              element={isAuthenticated ? <Dashboard setAuth={setAuth} /> : <Navigate to="/login" />}
+              element={
+                isAuthenticated ? (
+                  <Dashboard setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
             />
           </Routes>
         </div>

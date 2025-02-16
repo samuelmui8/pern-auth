@@ -1,6 +1,5 @@
 module.exports = {
-    testEnvironment: "node",
-    collectCoverage: true,
-    transform: {},
-  };
-  
+  testEnvironment: "node",
+  collectCoverage: true,
+  transform: {},
+};

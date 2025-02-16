@@ -7,16 +7,25 @@ import { http } from "msw";
 
 // Mock API response
 const server = setupServer(
-    http.post("http://localhost:3000/auth/register", async ({ request }) => {
-      const { username, password, nric, first_name, last_name, address, gender } = await request.json();
-      if (username === "testuser" && password === "password123" && nric === "S1234567A" && first_name === "John" && last_name === "Doe" && address === "123 Main St" && gender === "M") {
-        return new Response(JSON.stringify({ token: "fakeToken" }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-    })
-  );
+  http.post("http://localhost:3000/auth/register", async ({ request }) => {
+    const { username, password, nric, first_name, last_name, address, gender } =
+      await request.json();
+    if (
+      username === "testuser" &&
+      password === "password123" &&
+      nric === "S1234567A" &&
+      first_name === "John" &&
+      last_name === "Doe" &&
+      address === "123 Main St" &&
+      gender === "M"
+    ) {
+      return new Response(JSON.stringify({ token: "fakeToken" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }),
+);
 
 // Start the mock server before tests
 beforeAll(() => server.listen());
@@ -29,7 +38,7 @@ test("renders the registration form", () => {
   render(<Register setAuth={vi.fn()} />);
   // Ensure the heading is present
   expect(
-    screen.getByRole("heading", { name: /Register/i })
+    screen.getByRole("heading", { name: /Register/i }),
   ).toBeInTheDocument();
   // Check if all the fields are rendered
 
@@ -51,7 +60,7 @@ test("renders the registration form", () => {
 
   // Check if all options are rendered
   expect(
-    screen.getByRole("option", { name: "Select Gender" })
+    screen.getByRole("option", { name: "Select Gender" }),
   ).toBeInTheDocument();
   expect(screen.getByRole("option", { name: "Male" })).toBeInTheDocument();
   expect(screen.getByRole("option", { name: "Female" })).toBeInTheDocument();
@@ -65,22 +74,42 @@ test("renders the registration form", () => {
 test("user can fill in the form", () => {
   render(<Register setAuth={vi.fn()} />);
 
-  fireEvent.change(screen.getByPlaceholderText(/Enter username/i), { target: { value: "testuser" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter password/i), { target: { value: "password123" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter NRIC/i), { target: { value: "S1234567A" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter first name/i), { target: { value: "John" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter last name/i), { target: { value: "Doe" } });
-  fireEvent.change(screen.getByLabelText(/Date of Birth/i), { target: { value: "2000-01-01" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter address/i), { target: { value: "123 Main St" } });
-  fireEvent.change(screen.getByLabelText(/Gender/i), { target: { value: "M" } });
+  fireEvent.change(screen.getByPlaceholderText(/Enter username/i), {
+    target: { value: "testuser" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter password/i), {
+    target: { value: "password123" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter NRIC/i), {
+    target: { value: "S1234567A" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter first name/i), {
+    target: { value: "John" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter last name/i), {
+    target: { value: "Doe" },
+  });
+  fireEvent.change(screen.getByLabelText(/Date of Birth/i), {
+    target: { value: "2000-01-01" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter address/i), {
+    target: { value: "123 Main St" },
+  });
+  fireEvent.change(screen.getByLabelText(/Gender/i), {
+    target: { value: "M" },
+  });
 
   expect(screen.getByPlaceholderText(/Enter username/i).value).toBe("testuser");
-  expect(screen.getByPlaceholderText(/Enter password/i).value).toBe("password123");
+  expect(screen.getByPlaceholderText(/Enter password/i).value).toBe(
+    "password123",
+  );
   expect(screen.getByPlaceholderText(/Enter NRIC/i).value).toBe("S1234567A");
   expect(screen.getByPlaceholderText(/Enter first name/i).value).toBe("John");
   expect(screen.getByPlaceholderText(/Enter last name/i).value).toBe("Doe");
   expect(screen.getByLabelText(/Date of Birth/i).value).toBe("2000-01-01");
-  expect(screen.getByPlaceholderText(/Enter address/i).value).toBe("123 Main St");
+  expect(screen.getByPlaceholderText(/Enter address/i).value).toBe(
+    "123 Main St",
+  );
   expect(screen.getByLabelText(/Gender/i).value).toBe("M");
 });
 
@@ -91,14 +120,30 @@ test("submit the form with valid data and shows success message", async () => {
   render(<Register setAuth={mockSetAuth} />);
 
   // Fill in the form fields with valid data
-  fireEvent.change(screen.getByPlaceholderText(/Enter username/i), { target: { value: "testuser" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter password/i), { target: { value: "password123" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter NRIC/i), { target: { value: "S1234567A" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter first name/i), { target: { value: "John" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter last name/i), { target: { value: "Doe" } });
-  fireEvent.change(screen.getByLabelText(/Date of Birth/i), { target: { value: "2000-01-01" } });
-  fireEvent.change(screen.getByPlaceholderText(/Enter address/i), { target: { value: "123 Main St" } });
-  fireEvent.change(screen.getByLabelText(/Gender/i), { target: { value: "M" } });
+  fireEvent.change(screen.getByPlaceholderText(/Enter username/i), {
+    target: { value: "testuser" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter password/i), {
+    target: { value: "password123" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter NRIC/i), {
+    target: { value: "S1234567A" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter first name/i), {
+    target: { value: "John" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter last name/i), {
+    target: { value: "Doe" },
+  });
+  fireEvent.change(screen.getByLabelText(/Date of Birth/i), {
+    target: { value: "2000-01-01" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Enter address/i), {
+    target: { value: "123 Main St" },
+  });
+  fireEvent.change(screen.getByLabelText(/Gender/i), {
+    target: { value: "M" },
+  });
 
   // Submit the form
   fireEvent.click(screen.getByRole("button", { name: /Register/i }));

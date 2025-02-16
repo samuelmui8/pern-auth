@@ -7,7 +7,9 @@ describe("authenticateToken Middleware", () => {
 
   beforeAll(() => {
     // Create a valid token before tests
-    token = jwt.sign({ user: "testuser" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    token = jwt.sign({ user: "testuser" }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
   });
 
   test("Should return 401 if no token is provided", async () => {
@@ -25,5 +27,4 @@ describe("authenticateToken Middleware", () => {
     expect(res.statusCode).toBe(403);
     expect(res.body).toHaveProperty("message", "Invalid token");
   });
-
 });

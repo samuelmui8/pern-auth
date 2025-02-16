@@ -9,9 +9,7 @@ describe("Input Validation Middleware", () => {
       // Missing NRIC, first_name, etc.
     };
 
-    const res = await request(app)
-      .post("/auth/register")
-      .send(incompleteUser);
+    const res = await request(app).post("/auth/register").send(incompleteUser);
 
     expect(res.statusCode).toBe(401);
     expect(res.body).toHaveProperty("message", "Missing Input");
@@ -29,9 +27,7 @@ describe("Input Validation Middleware", () => {
       gender: "M",
     };
 
-    const res = await request(app)
-      .post("/auth/register")
-      .send(invalidNricUser);
+    const res = await request(app).post("/auth/register").send(invalidNricUser);
 
     expect(res.statusCode).toBe(401);
     expect(res.body).toHaveProperty("message", "Invalid NRIC");
@@ -50,5 +46,4 @@ describe("Input Validation Middleware", () => {
     expect(res.statusCode).toBe(401);
     expect(res.body).toHaveProperty("message", "Missing Input");
   });
-
 });
