@@ -40,6 +40,10 @@ function App() {
       <BrowserRouter>
         <div className="container">
           <Routes>
+            <Route 
+              path="/" 
+              element={<Navigate to="/login" />}
+            />
             <Route
               path="/register"
               element={

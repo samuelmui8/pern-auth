@@ -29,6 +29,11 @@ module.exports = (req, res, next) => {
     if (!/^[STFG]\d{7}[A-Z]$/.test(nric)) {
       return res.status(401).json({ message: "Invalid NRIC" });
     }
+
+    // check date of birth is in the past
+    if (new Date(dob) > new Date()) {
+      return res.status(401).json({ message: "Invalid Date of Birth" });
+    }
   }
 
   if (req.path === "/login") {
