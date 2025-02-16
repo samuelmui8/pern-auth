@@ -8,14 +8,14 @@ A simple user authentication system built with the **PERN stack** (PostgreSQL, E
 - ✅ PostgreSQL database for data management
 - ✅ Password hashing for secure storage of user credentials using bcrypt
 - ✅ Environment variable management using `.env` file for sensitive information, such as JWT secret key
-- ✅ Comprehensive unit and integration tests for backend API endpoints and frontend components
+- ✅ Comprehensive unit and integration tests for backend API endpoints (92% Code Coverage) and frontend components
 - ✅ Containerization using Docker for ease of depolyment and scalability
 - ✅ Persistent data storage using Docker volumes
 
 
 ## Prerequisites
 - **Docker**: Docker must be installed on your machine. If you don't have it, you can download it from [here](https://www.docker.com/products/docker-desktop)
-- **PostgreSQL** (optional): If you want to run the backend tests, you need to have PostgreSQL installed on your machine, with psql confiured in your PATH. You can download it from [here](https://www.postgresql.org/download/)
+- **PostgreSQL** (optional): If you want to run the backend tests, you need to have PostgreSQL installed on your machine, with psql configured in your PATH. You can download it from [here](https://www.postgresql.org/download/)
 
 ## Running the app
 1. Clone the repository
@@ -94,7 +94,7 @@ User passwords are hashed using the `bcrypt` library, which is a widely-used lib
 ### Testing
 The application is tested using **Jest**, **React Testing Library**, **Vitest**, **supertest** and **msw**.
 
-The frontend unit tests ensure that components render correctly. They also ensure the correct behaviour of the components, such as form validation and user interaction, simulating API requests using **msw** to mock the API responses. The backend unit and integration tests the API endpoints and middleware. Integration tests help to test the interaction between the different API endpoints and the middleware and ensure that they work together correctly.
+The frontend unit tests ensure that components render correctly. They also ensure the correct behaviour of the components, such as form validation and user interaction, simulating API requests using **msw** to mock the API responses. The backend unit and integration tests the API endpoints and middleware. Integration tests help to test the interaction between the different API endpoints and the middleware and ensure that they work together correctly. The backend tests cover 92.24% of lines of code while the frontend tests cover all components.
 
 ## Data Management
 The application uses a PostgreSQL database to store user data. The database is set up using Docker and is persistent, meaning that the data is not lost even when the container is stopped. To access the database, first run the Docker container:
