@@ -1,0 +1,102 @@
+# PERN Authentication Application
+
+A simple user authentication system built with the **PERN stack** (PostgreSQL, Express, React (Vite), Node.js). This application supports user login and registration using JWT authentication, with password hashing and validation.
+
+## Features
+- ✅ Login page and registration with proper validation
+- ✅ Dashboard page for authenticated users displaying personal information
+- ✅ PostgreSQL database for data management
+- ✅ Password hashing for secure storage of user credentials using bcrypt
+- ✅ Environment variable management using `.env` file for sensitive information, such as JWT secret key
+- ✅ Comprehensive unit and integration tests for backend API endpoints and frontend components
+- ✅ Containerization using Docker for ease of depolyment and scalability
+- ✅ Persistent data storage using Docker volumes
+
+
+## Prerequisites
+- **Docker**: Docker must be installed on your machine. If you don't have it, you can download it from [here](https://www.docker.com/products/docker-desktop)
+
+## Running the app
+1. Clone the repository
+```bash
+git clone https://github.com/samuelmui8/pern-auth.git
+```
+2. Create a `.env` file in the root directory with the following content, changing *DB_PASS* to your postgres password and *JWT_SECRET* to a secret key of your choice:
+```env
+PORT=3000
+DB_USER=postgres
+DB_HOST=postgres
+DB_NAME=pern_auth_db
+DB_PASS=your_password
+DB_PORT=5432
+JWT_SECRET=your_secret_key
+```
+
+3. In the root directory, run the following command to start the Docker container:
+```bash
+docker-compose up --build` 
+```
+4. The app should be running on `http://localhost:5173`
+
+
+## Testing
+To run the tests, refer to the following instructions:
+
+### Frontend tests:
+In the `frontend` directory, run:
+```bash
+npm install --save-dev
+npm run test
+```
+
+### Backend tests
+
+First, set up PostgreSQL database for testing. In your **psql** terminal, run:
+```bash
+CREATE DATABASE pern_auth_db;
+```
+
+Next, connect to the database and create the test table:
+```bash
+\c pern_auth_db
+
+CREATE TABLE IF NOT EXISTS users (
+    username VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    nric VARCHAR(9) UNIQUE NOT NULL CHECK (nric ~* '^[STFGM]\d{7}[A-Z]$'),
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    dob DATE NOT NULL,
+    address TEXT NOT NULL,
+    gender CHAR NOT NULL CHECK (gender IN ('M', 'F'))
+);
+
+```
+Ensure that the `.env` file in the root directory is set up correctly. If you have already run the Docker container, you have to switch `DB_HOST` from `postgres` to `localhost`:
+```env
+PORT=3000
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=pern_auth_db
+DB_PASS=your_password
+DB_PORT=5432
+JWT_SECRET=your_secret_key
+```
+
+In the `backend` directory, run:
+```bash
+npm install --save-dev
+npm run test
+```
+
+## Technical Decisions
+### JWT storage location
+The JWT token is stored as **cookies** in the browser. This is a more secure method compared to storing it in local storage or session storage, as it is protected from XSS attacks (not accessible by JavaScript). The cookie is set with the `HttpOnly` and `Secure` (in production) flags, which prevents cross-site scripting attacks and ensures that the cookie is only sent over HTTPS. The cookie is also set with the `SameSite` attribute to prevent cross-site request forgery (CSRF) attacks.
+
+### Password hashing
+User passwords are hashed using the `bcrypt` library, which is a widely-used library for password hashing. The hashed password is stored in the database, and the original password is never stored. When a user logs in, the password entered is hashed and compared with the hashed password in the database. This ensures that the password is never stored in plaintext and is secure from attacks.
+
+### Testing
+The application is tested using **Jest**, **React Testing Library**, **Vitest**, **supertest** and **msw**.
+
+The frontend unit tests ensure that components render correctly. They also ensure the correct behaviour of the components, such as form validation and user interaction, simulating API requests using **msw** to mock the API responses. The backend unit and integration tests the API endpoints and middleware. Integration tests help to test the interaction between the different API endpoints and the middleware and ensure that they work together correctly.
