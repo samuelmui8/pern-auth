@@ -86,7 +86,20 @@ npm run test
 
 ## Technical Decisions
 ### JWT storage location
-The JWT token is stored as **cookies** in the browser. This is a more secure method compared to storing it in local storage or session storage, as it is protected from XSS attacks (not accessible by JavaScript). The cookie is set with the `HttpOnly` and `Secure` (in production) flags, which prevents cross-site scripting attacks and ensures that the cookie is only sent over HTTPS. The cookie is also set with the `SameSite` attribute to prevent cross-site request forgery (CSRF) attacks.
+The JWT token is stored as **cookies** in the browser. Although storing it in local storage is more convenient and easier to implement, cookies is a more secure method. It is protected from XSS attacks (not accessible by JavaScript) and the cookie is set with the `HttpOnly` and `Secure` (in production) flags, which prevents cross-site scripting attacks and ensures that the cookie is only sent over HTTPS. The cookie is also set with the `SameSite` attribute to prevent cross-site request forgery (CSRF) attacks.
+
+### Database Schema
+The database schema consists of a single table, `users`, which stores user information. The table has the following columns:
+- `username`: The username of the user, which is unique and serves as the primary key
+- `password`: The hashed password of the user
+- `nric`: The NRIC of the user, which is unique and has a regex check to ensure it is in the correct format
+- `first_name`: The first name of the user
+- `last_name`: The last name of the user
+- `dob`: The date of birth of the user, which is a `Date` type in the past
+- `address`: The address of the user
+- `gender`: The gender of the user, which can be either 'M' or 'F'
+
+Although `nric` is unique and would be a good candidate for the primary key, I chose to use `username` as the primary key because it is used directly during login to uniquely identify a user, and it is the hence the more logical choice.
 
 ### Password hashing
 User passwords are hashed using the `bcrypt` library, which is a widely-used library for password hashing. The hashed password is stored in the database, and the original password is never stored. When a user logs in, the password entered is hashed and compared with the hashed password in the database. This ensures that the password is never stored in plaintext and is secure from attacks.
