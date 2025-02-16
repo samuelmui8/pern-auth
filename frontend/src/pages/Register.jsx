@@ -112,9 +112,10 @@ const Register = ({ setAuth }) => {
             </div>
           </div>
           <div className="mb-3">
-            <label className="form-label">Date of Birth</label>
+            <label htmlFor="dob" className="form-label">Date of Birth</label>
             <input
               type="date"
+              id="dob"
               name="dob"
               value={dob}
               onChange={onChange}
@@ -135,9 +136,10 @@ const Register = ({ setAuth }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="form-label">Gender</label>
+            <label htmlFor="gender" className="form-label">Gender</label>
             <select
               name="gender"
+              id="gender"
               value={gender}
               onChange={onChange}
               className="form-control form-control-lg"
