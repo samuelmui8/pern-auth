@@ -34,7 +34,7 @@ JWT_SECRET=your_secret_key
 
 3. In the root directory, run the following command to build and run the Docker container:
 ```bash
-docker-compose up --build` 
+docker-compose up --build
 ```
 
 4. If you have built the Docker image before, you can run the following command instead to start the container:
