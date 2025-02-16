@@ -15,6 +15,7 @@ A simple user authentication system built with the **PERN stack** (PostgreSQL, E
 
 ## Prerequisites
 - **Docker**: Docker must be installed on your machine. If you don't have it, you can download it from [here](https://www.docker.com/products/docker-desktop)
+- **PostgreSQL** (optional): If you want to run the backend tests, you need to have PostgreSQL installed on your machine, with psql confiured in your PATH. You can download it from [here](https://www.postgresql.org/download/)
 
 ## Running the app
 1. Clone the repository
@@ -37,7 +38,7 @@ JWT_SECRET=your_secret_key
 docker-compose up --build
 ```
 
-4. If you have built the Docker image before, you can run the following command instead to start the container:
+4. If you have built the Docker container before, you can run the following command instead to start the container:
 ```bash
 docker-compose up
 ```
@@ -57,27 +58,15 @@ npm run test
 
 ### Backend tests
 
-First, set up PostgreSQL database for testing. In your **psql** terminal, run:
+First, set up PostgreSQL database for testing. If you have psql in your PATH, n the root directory, run:
 ```bash
-CREATE DATABASE pern_auth_db;
+chmod +x init_db.sh
+./init_db.sh
 ```
 
-Next, connect to the database and create the test table:
-```bash
-\c pern_auth_db
+If you don't have psql in your PATH, you can create the database manually. Instructions are at the bottom of the README.
 
-CREATE TABLE IF NOT EXISTS users (
-    username VARCHAR(255) PRIMARY KEY,
-    password VARCHAR(255) NOT NULL,
-    nric VARCHAR(9) UNIQUE NOT NULL CHECK (nric ~* '^[STFGM]\d{7}[A-Z]$'),
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    dob DATE NOT NULL,
-    address TEXT NOT NULL,
-    gender CHAR NOT NULL CHECK (gender IN ('M', 'F'))
-);
 
-```
 Ensure that the `.env` file in the root directory is set up correctly. If you have already run the Docker container, you have to switch `DB_HOST` from `postgres` to `localhost`:
 ```env
 PORT=3000
@@ -121,4 +110,29 @@ docker exec -it postgres psql -U postgres -d pern_auth_db
 You can now run SQL queries to interact with the database. For example, to view all the users in the `users` table, run:
 ```sql
 SELECT * FROM users;
+```
+
+## Manual database setup for local testing
+If you don't have psql in your PATH, you can create the database manually. First, ensure that you have PostgreSQL installed on your machine. Next, create the database and user using the following commands:
+
+In your **psql** terminal, run:
+```bash
+CREATE DATABASE pern_auth_db;
+```
+
+Next, connect to the database and create the test table:
+```bash
+\c pern_auth_db
+
+CREATE TABLE IF NOT EXISTS users (
+    username VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    nric VARCHAR(9) UNIQUE NOT NULL CHECK (nric ~* '^[STFGM]\d{7}[A-Z]$'),
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    dob DATE NOT NULL,
+    address TEXT NOT NULL,
+    gender CHAR NOT NULL CHECK (gender IN ('M', 'F'))
+);
+
 ```
