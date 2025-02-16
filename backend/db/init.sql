@@ -1,11 +1,3 @@
--- Ensure the database exists
-DO $$ 
-BEGIN
-    IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'pern_auth_db') THEN
-        CREATE DATABASE pern_auth_db;
-    END IF;
-END $$;
-
 -- Connect to the database
 \c pern_auth_db;
 
