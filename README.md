@@ -58,7 +58,7 @@ npm run test
 
 ### Backend tests
 
-First, set up PostgreSQL database for testing. If you have psql in your PATH, n the root directory, run:
+First, set up PostgreSQL database for testing. If you have psql in your PATH, in the root directory, run:
 ```bash
 chmod +x init_db.sh
 ./init_db.sh
