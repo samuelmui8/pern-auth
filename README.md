@@ -32,11 +32,17 @@ DB_PORT=5432
 JWT_SECRET=your_secret_key
 ```
 
-3. In the root directory, run the following command to start the Docker container:
+3. In the root directory, run the following command to build and run the Docker container:
 ```bash
 docker-compose up --build` 
 ```
-4. The app should be running on `http://localhost:5173`
+
+4. If you have built the Docker image before, you can run the following command instead to start the container:
+```bash
+docker-compose up
+```
+
+5. The app should be running on `http://localhost:5173`
 
 
 ## Testing
@@ -100,3 +106,19 @@ User passwords are hashed using the `bcrypt` library, which is a widely-used lib
 The application is tested using **Jest**, **React Testing Library**, **Vitest**, **supertest** and **msw**.
 
 The frontend unit tests ensure that components render correctly. They also ensure the correct behaviour of the components, such as form validation and user interaction, simulating API requests using **msw** to mock the API responses. The backend unit and integration tests the API endpoints and middleware. Integration tests help to test the interaction between the different API endpoints and the middleware and ensure that they work together correctly.
+
+## Data Management
+The application uses a PostgreSQL database to store user data. The database is set up using Docker and is persistent, meaning that the data is not lost even when the container is stopped. To access the database, first run the Docker container:
+```bash
+docker-compose up
+```
+
+Next, open another terminal and connect to the PostgreSQL database using the following command:
+```bash
+docker exec -it postgres psql -U postgres -d pern_auth_db
+```
+
+You can now run SQL queries to interact with the database. For example, to view all the users in the `users` table, run:
+```sql
+SELECT * FROM users;
+```
