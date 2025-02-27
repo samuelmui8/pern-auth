@@ -14,9 +14,6 @@ function App() {
   }, []);
 
   const setAuth = (value) => {
-    if (!value) {
-      localStorage.removeItem("token"); // Remove token on logout
-    }
     setIsAuthenticated(value);
   };
 
@@ -24,7 +21,6 @@ function App() {
     try {
       const response = await fetch("http://localhost:3000/auth/is-verified", {
         method: "GET",
-        headers: { token: localStorage.getItem("token") },
         credentials: "include",
       });
 
