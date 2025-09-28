@@ -3,14 +3,14 @@
 A simple user authentication system built with the **PERN stack** (PostgreSQL, Express, React (Vite), Node.js). This application supports user login and registration using JWT authentication, with password hashing and validation.
 
 ## Features
-- ✅ Login page and registration with proper validation
-- ✅ Dashboard page for authenticated users displaying personal information
-- ✅ PostgreSQL database for data management
-- ✅ Password hashing for secure storage of user credentials using bcrypt
-- ✅ Environment variable management using `.env` file for sensitive information, such as JWT secret key
-- ✅ Comprehensive unit and integration tests for backend API endpoints (92% Code Coverage) and frontend components
-- ✅ Containerization using Docker for ease of depolyment and scalability
-- ✅ Persistent data storage using Docker volumes
+- Login page and registration with proper validation
+- Dashboard page for authenticated users displaying personal information
+- PostgreSQL database for data management
+- Password hashing for secure storage of user credentials using bcrypt
+- Environment variable management using `.env` file for sensitive information, such as JWT secret key
+- Unit and integration tests for backend API endpoints (92% Code Coverage) and frontend components
+- Containerization using Docker for ease of deployment and scalability
+- Persistent data storage using Docker volumes
 
 
 ## Prerequisites
